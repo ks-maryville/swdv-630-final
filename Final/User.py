@@ -3,16 +3,14 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from Final.db import session, engine, DB
-
-Base = declarative_base()
+from Final.db import *
 
 
-class User(Base, DB):
+class User(Base):
     __tablename__ = "user"
 
     user_id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(unique=True,nullable=False)
     password: Mapped[str]
     role: Mapped[str]
 
@@ -24,7 +22,3 @@ class User(Base, DB):
 
     def __repr__(self):
         return f"(\nuser_id: {self.user_id}\nemail: {self.email}\nrole: {self.role}\npassword: {self.password})"
-
-
-# Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
