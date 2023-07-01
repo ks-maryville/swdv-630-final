@@ -1,4 +1,3 @@
-
 import uuid
 from datetime import datetime
 
@@ -15,7 +14,7 @@ from Final.db import *
 
 
 def main():
-    # Base.metadata.drop_all(bind=engine)
+    # =================== Create Database and Insert Initial Tables =======================
     Base.metadata.create_all(bind=engine)
     try:
         print("============ creating users =============")
@@ -53,7 +52,7 @@ def main():
                     profile = EditorProfile(4, user.user_id, "first_name", "middle_name", "last_name", user.role, True)
                     session.add(profile)
                     session.commit()
-
+        # =============================================================================================
         # writer creates article and saves it to the database
         test_writer = session.query(WriterProfile).get(3)
         test_new_article = test_writer.create_article("newArticle", "articleBody")
@@ -100,7 +99,7 @@ def main():
         session.add(test_payment_method)
         session.commit()
         print(test_subscriber)
-        # add subscription to profile
+        # subscriber adds subscription to profile
         subscription_to_add = test_subscriber.add_subscription()
         session.add(subscription_to_add)
         session.commit()
