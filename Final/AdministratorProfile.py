@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -16,5 +18,8 @@ class AdministratorProfile(Profile):
         self.is_administrator = is_administrator
 
     def __repr__(self):
-        # return f"(profile_id: {self.profile_id},user_id: {self.user_id},profile_type: {self.profile_type},is_administrator: {self.is_administrator})"
-        return str(self.__dict__)
+        return f"(profile_id: {self.profile_id},user_id: {self.user_id},profile_type: {self.profile_type},is_administrator: {self.is_administrator})"
+
+    def approve_article(self, article):
+        article.approved = True
+        article.date_updated = datetime.now()
