@@ -11,13 +11,8 @@ class SubscriberProfile(Profile):
         "polymorphic_identity": "subscriber"
     }
 
-    def __init__(self, profile_id, user_id, profile_type, has_subscription):
-        self.profile_id = profile_id
-        self.user_id = user_id
-        # self.first_name = first_name
-        # self.middle_name = middle_name
-        # self.last_name = last_name
-        self.profile_type = profile_type
+    def __init__(self, profile_id, user_id, first_name, middle_name, last_name, profile_type, has_subscription):
+        super().__init__(profile_id, user_id, first_name, middle_name, last_name, profile_type)
         self.has_subscription = has_subscription
 
     def __repr__(self):

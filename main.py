@@ -31,34 +31,47 @@ def main():
                 session.add(user)
                 if user.role == 'admin':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-                    profile = AdministratorProfile(1, user.user_id, user.role, True)
+                    profile = AdministratorProfile(1, user.user_id, "first_name", "middle_name", "last_name", user.role,
+                                                   True)
                     session.add(profile)
                     session.commit()
                 elif user.role == 'subscriber':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-                    profile = SubscriberProfile(2, user.user_id, user.role, True)
+                    profile = SubscriberProfile(2, user.user_id, "first_name", "middle_name", "last_name", user.role,
+                                                True)
                     session.add(profile)
                     session.commit()
                 elif user.role == 'writer':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-                    profile = WriterProfile(3, user.user_id, user.role, True)
+                    profile = WriterProfile(3, user.user_id, "first_name", "middle_name", "last_name", user.role, True,
+                                            [])
                     session.add(profile)
                     session.commit()
                 elif user.role == 'editor':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-                    profile = EditorProfile(4, user.user_id, user.role, True)
+                    profile = EditorProfile(4, user.user_id, "first_name", "middle_name", "last_name", user.role, True)
                     session.add(profile)
                     session.commit()
 
-        query = session.query(User).all()
-        print(Fore.MAGENTA + "This query is NULL: ", query is None)
-        print(Fore.MAGENTA + query.__str__())
-
-        print("=========================================")
-        article = Article(None, 3, None, "title", "body", None, None, None, None,[], datetime.datetime.now(), None)
-        session.add(article)
+        # writer creates article and saves it to the database
+        test_writer = session.query(WriterProfile).get(3)
+        test_new_article = test_writer.create_article("newArticle", "articleBody")
+        session.add(test_new_article)
         session.commit()
-        print(session.query(Article).all())
+        # writer submits the article for editing (setting the article to "submitted" then updating the row)
+        article_to_submit = session.query(Article).get(1)
+        test_writer.submit_article(article_to_submit)
+        session.commit()
+        print(session.query(WriterProfile).get(3))
+        # editor edits and submits the article
+        test_editor = session.query(EditorProfile).get(4)
+        get_article = session.query(Article).get(1)
+        print(get_article)
+        test_editor.edit_article(get_article, "Edits have been made")
+        session.commit()
+        test_editor.submit_article(get_article)
+        session.commit()
+        print(get_article)
     except IntegrityError:
         error = SQLAlchemyError()
         print("error")
