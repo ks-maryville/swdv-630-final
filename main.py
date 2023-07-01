@@ -1,11 +1,15 @@
+import datetime
+import uuid
+
 from colorama import Fore
 from sqlalchemy.exc import SQLAlchemyError
 
-from Final.AdministratorProfile import AdministratorProfile
-from Final.EditorProfile import EditorProfile
-from Final.SubscriberProfile import SubscriberProfile
 from Final.User import *
+from Final.AdministratorProfile import AdministratorProfile
+from Final.SubscriberProfile import SubscriberProfile
+from Final.EditorProfile import EditorProfile
 from Final.WriterProfile import WriterProfile
+from Final.Article import Article
 from Final.db import *
 
 
@@ -27,23 +31,22 @@ def main():
                 session.add(user)
                 if user.role == 'admin':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-
-                    profile = AdministratorProfile(None, user.user_id, user.role, True)
+                    profile = AdministratorProfile(1, user.user_id, user.role, True)
                     session.add(profile)
                     session.commit()
                 elif user.role == 'subscriber':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-                    profile = SubscriberProfile(None, user.user_id, user.role, True)
+                    profile = SubscriberProfile(2, user.user_id, user.role, True)
                     session.add(profile)
                     session.commit()
                 elif user.role == 'writer':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-                    profile = WriterProfile(None, user.user_id, user.role, True)
+                    profile = WriterProfile(3, user.user_id, user.role, True)
                     session.add(profile)
                     session.commit()
                 elif user.role == 'editor':
                     print(Fore.YELLOW + f"(============ creating {user.role} profile =============)")
-                    profile = EditorProfile(None, user.user_id, user.role, True)
+                    profile = EditorProfile(4, user.user_id, user.role, True)
                     session.add(profile)
                     session.commit()
 
@@ -52,7 +55,10 @@ def main():
         print(Fore.MAGENTA + query.__str__())
 
         print("=========================================")
-
+        article = Article(None, 3, None, "title", "body", None, None, None, None,[], datetime.datetime.now(), None)
+        session.add(article)
+        session.commit()
+        print(session.query(Article).all())
     except IntegrityError:
         error = SQLAlchemyError()
         print("error")

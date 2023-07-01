@@ -22,3 +22,12 @@ class EditorProfile(Profile):
 
     def __repr__(self):
         return f"(profile_id: {self.profile_id},user_id: {self.user_id},profile_type: {self.profile_type},is_editor: {self.is_editor})"
+
+    def select_article(self):
+        pass
+
+    def edit_article(self):
+        pass
+
+    def submit_article(self):
+        pass

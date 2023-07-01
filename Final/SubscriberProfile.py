@@ -22,3 +22,12 @@ class SubscriberProfile(Profile):
 
     def __repr__(self):
         return f"(profile_id: {self.profile_id},user_id: {self.user_id},profile_type: {self.profile_type},has_subscription: {self.has_subscription})"
+
+    def add_comment(self):
+        pass
+
+    def add_subscription(self):
+        pass
+
+    def add_payment_method(self):
+        pass
