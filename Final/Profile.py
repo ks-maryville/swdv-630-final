@@ -19,7 +19,8 @@ class Profile(Base):
     profile_type: Mapped[str]
 
     articles: Mapped[Optional[List["Article"]]] = relationship(back_populates="profile")
-
+    payment_methods: Mapped[Optional[List["CreditDebit"]]] = relationship(back_populates="profile")
+    subscription: Mapped['Subscription'] = relationship(back_populates='profile')
     __mapper_args__ = {
         "polymorphic_on": "profile_type",
         "polymorphic_identity": "profile"

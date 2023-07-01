@@ -1,5 +1,6 @@
-import datetime
+
 import uuid
+from datetime import datetime
 
 from colorama import Fore, Back
 from sqlalchemy.exc import SQLAlchemyError
@@ -91,9 +92,22 @@ def main():
         session.commit()
         print(Fore.CYAN)
         print(article_for_comment)
+        # subscriber adds payment method
+
+        test_payment_method = test_subscriber.add_payment_method("cardnumber", "expiration", "cvv", "address1",
+                                                                 "address2", "city", "state",
+                                                                 "zip")
+        session.add(test_payment_method)
+        session.commit()
+        print(test_subscriber)
+        # add subscription to profile
+        subscription_to_add = test_subscriber.add_subscription()
+        session.add(subscription_to_add)
+        session.commit()
+        print(test_subscriber)
     except IntegrityError:
         error = SQLAlchemyError()
-        print("error")
+        print("error: ", IntegrityError.with_traceback())
         session.rollback()
 
 
